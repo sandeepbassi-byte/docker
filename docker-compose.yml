@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  redis:
+    image: 'redis'
+    container_name: 'carestack_redis'
+    ports: 
+      - '6379:6379'
+
+  mongo:
+    image: 'mongo'
+    container_name: 'carestack_mongo'
+
+  db:
+    image: 'microsoft/mssql-server-linux:2017-latest'
+    container_name: 'carestack_mssql'
+    ports:
+      - '1401:1433'
+    environment:
+      SA_PASSWORD: 'YourNewStrong!Passw0rd'
+      ACCEPT_EULA: 'Y'
+    volumes:
+      - type: 'bind'
+        target: '/var/opt/mssql'
+        source: './sql_volume'
+
+  audit_db:
+    image: 'mysql:latest'
+    container_name: 'carestack_mysql'
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'YourNewStrong!Passw0rd'
